@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { Link } from 'react-router-native';
 import theme from '../theme';
 import Text from './Text';
 
 const styles = StyleSheet.create({
+  text: {
+    padding: 10
+  },
   navigation: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -17,12 +20,14 @@ const AppBar = () => {
   return(
     <TouchableWithoutFeedback>
       <View style={styles.navigation}>
-      <Link to="/">
-          <Text color='white' style={styles.text}>Repositories</Text>
-        </Link>
-        <Link to="/signin">
-          <Text color='white' style={styles.text}>Sign In</Text>
-        </Link>
+        <ScrollView horizontal>
+          <Link to="/">
+            <Text color='white' style={styles.text}>Repositories</Text>
+          </Link>
+          <Link to="/signin">
+            <Text color='white' style={styles.text}>Sign In</Text>
+          </Link>
+        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   ); 

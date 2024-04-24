@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, View, SafeAreaView } from 'react-native';
 import RepositoryList from './RepositoryList';
 import AppBar from './AppBar';
 import { Route, Redirect, Switch, Link } from 'react-router-native';
 import SignIn from './SignIn';
 import theme from '../theme';
+import Text from './Text';
 
 const styles = StyleSheet.create({
   container: {
