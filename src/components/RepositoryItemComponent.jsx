@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import Text from './Text';
+import Text from '../reusableComponents/Text';
 
 const formatCount = (count) => {
   if (count >= 1000) {

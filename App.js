@@ -1,4 +1,4 @@
-import Main from './src/components/Main';
+import Main from './src/screens/MainScreen';
 import { NativeRouter } from 'react-router-native';
 import React from 'react';
 
