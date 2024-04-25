@@ -2,10 +2,8 @@ import React from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import RepositoryList from '../components/RepositoryListComponent';
 import AppBar from '../components/AppBarComponent';
-import { Route, Redirect, Switch, Link } from 'react-router-native';
-import SignIn from './SignInScreen';
-import theme from '../theme';
-import Text from '../reusableComponents/Text';
+import { Route, Switch } from 'react-router-native';
+import SignInScreen from './SignInScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +31,7 @@ const Main = () => {
           <RepositoryList/>
         </Route>
         <Route path="/signin">
-          <SignIn/>
+          <SignInScreen/>
         </Route>
       </Switch>
     </SafeAreaView>
