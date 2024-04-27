@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 const Input = ({ label, value, iconName, error, touched, password, ...props }) => {
   const [hidePassword, setHidePassword] = React.useState(password);
-  const [isFocused, setIsFocused] = React.useState(false);
+  const [isFocused, setIsFocused] = React.useState(true);
 
   return (
     <View style={{marginBottom: 20}}>

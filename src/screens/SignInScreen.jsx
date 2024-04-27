@@ -18,27 +18,7 @@ const SignUpSchema = Yup.object().shape({
     .required('Please enter your password')
 });
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    height: 55,
-    backgroundColor: theme.colors.light,
-    flexDirection: 'row',
-    paddingHorizontal: 15,
-    borderWidth: 0.5,
-  },
-});
-
-
 const SignInScreen = () => {
-  const [inputs, setInputs] = React.useState({
-    name: '',
-    password: '',
-  });
-
-  const handleOnchange = (text, input) => {
-    setInputs(prevState => ({...prevState, [input]: text}));
-  };
-
   return (
       <Formik 
       initialValues={{
@@ -50,7 +30,7 @@ const SignInScreen = () => {
         console.log(values)
       }}
       >
-        {({values, errors, touched, handleChange, setFieldTouched, handleSubmit}) =>(
+        {({values, errors, touched, handleChange}) =>(
         <ScrollView>
           <SafeAreaView style={{backgroundColor: theme.colors.white, flex: 1}}>
             <View style={{paddingTop: 50, paddingHorizontal: 20}}>
@@ -67,7 +47,7 @@ const SignInScreen = () => {
                 <Input 
                   label="Name"
                   placeholder="Enter your name"
-                  onChangeText={text => handleOnchange(text, 'name')}
+                  onChangeText={handleChange('name')}
                   value={values.name}
                   iconName="email-outline"
                   error={errors.name}
@@ -76,7 +56,7 @@ const SignInScreen = () => {
                 <Input 
                   label="Password"
                   placeholder="Enter your password"
-                  onChangeText={text => handleOnchange(text, 'password')}
+                  onChangeText={handleChange('password')}
                   value={values.password}
                   iconName="lock-outline"
                   error={errors.password}
