@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../reusableComponents/Input';
 import useSignIn from '../hooks/useSignIn';
-import AuthStorage from '../utils/authStorage';
+import { useHistory } from 'react-router-native';
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()
@@ -20,7 +20,8 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignInScreen = () => {
-  const [signIn, result, errorMessage] = useSignIn();
+  const [signInUser, result, errorMessage] = useSignIn();
+  const history = useHistory();
 
   const onSubmit = async(values, resetForm) => {
     const { username, password } = values;
@@ -28,14 +29,11 @@ const SignInScreen = () => {
     console.log('Password:', password)
     
     try { 
-      const { data } = await signIn({ username, password });
-      console.log('Data Sign in Screen:', data)
-      if (data && data.accessToken) {
-        await AuthStorage.setAccessToken(data.accessToken);
-      }
+      await signInUser({ username, password });
+      history.push('/'); 
     } catch(e) {
       console.log(e);
-      Alert.alert('Error: ', e.message);
+      Alert.alert('Error: ', errorMessage);
       resetForm({ values: { username: '', password: '' } });
     }
  }
