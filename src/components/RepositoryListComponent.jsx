@@ -20,8 +20,6 @@ const RepositoryList = () => {
     fetchPolicy: 'cache-and-network',
   });
 
-  console.log(data);
-
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];

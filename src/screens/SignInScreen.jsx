@@ -1,40 +1,58 @@
-import React, { useState } from 'react';
-import {View, SafeAreaView, TextInput, StyleSheet, ScrollView} from 'react-native';
+import React from 'react';
+import {View, SafeAreaView, ScrollView, Alert} from 'react-native';
 import Button from '../reusableComponents/Button';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Text from '../reusableComponents/Text';
 import theme from '../theme';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../reusableComponents/Input';
+import useSignIn from '../hooks/useSignIn';
+import AuthStorage from '../utils/authStorage';
 
 const SignUpSchema = Yup.object().shape({
-  name: Yup.string()
+  username: Yup.string()
     .min(3, 'Too Short!')
     .max(20, 'Too Long!')
     .required('Please enter a uniqued name.'),
   password: Yup.string()
-    .min(8)
+    .min(8, 'Too Short!')
     .required('Please enter your password')
 });
 
 const SignInScreen = () => {
-  return (
-      <Formik 
+  const [signIn, result, errorMessage] = useSignIn();
+
+  const onSubmit = async(values, resetForm) => {
+    const { username, password } = values;
+    console.log('Username:', username)
+    console.log('Password:', password)
+    
+    try { 
+      const { data } = await signIn({ username, password });
+      console.log('Data Sign in Screen:', data)
+      if (data && data.accessToken) {
+        await AuthStorage.setAccessToken(data.accessToken);
+      }
+    } catch(e) {
+      console.log(e);
+      Alert.alert('Error: ', e.message);
+      resetForm({ values: { username: '', password: '' } });
+    }
+ }
+
+ return (
+    <Formik 
       initialValues={{
-        name: '',
+        username: '',
         password: ''
       }}
       validationSchema={SignUpSchema}
-      onSubmit={values => {
-        console.log(values)
-      }}
-      >
-        {({values, errors, touched, handleChange}) =>(
+      onSubmit={onSubmit}
+    >
+      {({values, errors, touched, handleChange, resetForm}) => (
         <ScrollView>
           <SafeAreaView style={{backgroundColor: theme.colors.white, flex: 1}}>
             <View style={{paddingTop: 50, paddingHorizontal: 20}}>
-              {/* Titulo de Login */}
               <Text color="primary" fontSize="title" fontWeight="bold">
                 Sign In
               </Text>
@@ -42,39 +60,35 @@ const SignInScreen = () => {
                 Enter Your Details to Login
               </Text>
 
-              {/* Text Input */}
               <View style={{marginVertical: 20}}>
                 <Input 
-                  label="Name"
-                  placeholder="Enter your name"
-                  onChangeText={handleChange('name')}
-                  value={values.name}
-                  iconName="email-outline"
-                  error={errors.name}
-                  touched={touched.name}
+                 label="Username"
+                 placeholder="Enter your username"
+                 onChangeText={handleChange('username')}
+                 value={values.username}
+                 iconName="email-outline"
+                 error={errors.username}
+                 touched={touched.username}
                 />
                 <Input 
-                  label="Password"
-                  placeholder="Enter your password"
-                  onChangeText={handleChange('password')}
-                  value={values.password}
-                  iconName="lock-outline"
-                  error={errors.password}
-                  touched={touched.password}
-                  password
+                 label="Password"
+                 placeholder="Enter your password"
+                 onChangeText={handleChange('password')}
+                 value={values.password}
+                 iconName="lock-outline"
+                 error={errors.password}
+                 touched={touched.password}
+                 password={true}
                 />
-
-                <Button title="Log In"/>
-                {/* Register */}
+                <Button title="Log In" onPress={() => onSubmit(values, resetForm)}/>
                 <Text> Don't have account? Register </Text>
               </View>
             </View>
           </SafeAreaView>
         </ScrollView>
-
-        )}
-      </Formik>
-  );
+      )}
+    </Formik>
+ );
 };
 
 export default SignInScreen;

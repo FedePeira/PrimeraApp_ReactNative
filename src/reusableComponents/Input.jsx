@@ -46,11 +46,9 @@ const Input = ({ label, value, iconName, error, touched, password, ...props }) =
           />
         )}
       </View>
-      {touched && error && (
-        <Text color="red" style={{marginTop: 10}}>
-          {error}
-        </Text>
-      )}
+      <Text color="red" style={{marginTop: 10}}>
+        {error}
+      </Text>
     </View>
   );
 };
