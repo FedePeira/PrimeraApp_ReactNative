@@ -7,10 +7,9 @@ class AuthStorage {
 
  async getAccessToken() {
     try {
+      console.log('Obteniendo Token...')
       const value = await AsyncStorage.getItem(`${this.namespace}:accessToken`);
-      if (value !== null) {
-        console.log(value);
-      }
+      return value
     } catch (error) {
       console.error(error);
     }
@@ -18,6 +17,7 @@ class AuthStorage {
 
  async setAccessToken(accessToken) {
     try {
+      console.log('Seteando Token...')
       await AsyncStorage.setItem(`${this.namespace}:accessToken`, accessToken);
     } catch (error) {
       console.error(error);
@@ -26,6 +26,7 @@ class AuthStorage {
 
  async removeAccessToken() {
     try {
+      console.log('Borrando Token...')
       await AsyncStorage.removeItem(`${this.namespace}:accessToken`);
     } catch (error) {
       console.error(error);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, SafeAreaView, ScrollView, Alert} from 'react-native';
 import Button from '../reusableComponents/Button';
 import Text from '../reusableComponents/Text';
@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import Input from '../reusableComponents/Input';
 import useSignIn from '../hooks/useSignIn';
 import { useHistory } from 'react-router-native';
+import { useApolloClient } from '@apollo/client';
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,9 +20,10 @@ const SignUpSchema = Yup.object().shape({
     .required('Please enter your password')
 });
 
-const SignInScreen = () => {
+const SignIn = () => {
   const [signInUser, result, errorMessage] = useSignIn();
   const history = useHistory();
+  const client = useApolloClient(); 
 
   const onSubmit = async(values, resetForm) => {
     const { username, password } = values;
@@ -30,6 +32,7 @@ const SignInScreen = () => {
     
     try { 
       await signInUser({ username, password });
+      await client.resetStore();
       history.push('/'); 
     } catch(e) {
       console.log(e);
@@ -78,7 +81,7 @@ const SignInScreen = () => {
                  touched={touched.password}
                  password={true}
                 />
-                <Button title="Log In" onPress={() => onSubmit(values, resetForm)}/>
+                <Button title="Sign In" onPress={() => onSubmit(values, resetForm)}/>
                 <Text> Don't have account? Register </Text>
               </View>
             </View>
@@ -89,4 +92,4 @@ const SignInScreen = () => {
  );
 };
 
-export default SignInScreen;
+export default SignIn;

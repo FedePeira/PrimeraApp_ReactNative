@@ -3,7 +3,8 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 import RepositoryList from '../components/RepositoryListComponent';
 import AppBar from '../components/AppBarComponent';
 import { Route, Switch } from 'react-router-native';
-import SignInScreen from './SignInScreen';
+import SignIn from './SignInScreen';
+import SignOut from './SignOutScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,7 +32,10 @@ const Main = () => {
           <RepositoryList/>
         </Route>
         <Route path="/signin">
-          <SignInScreen/>
+          <SignIn/>
+        </Route>
+        <Route path="/signout">
+          <SignOut/>
         </Route>
       </Switch>
     </SafeAreaView>
